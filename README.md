@@ -105,4 +105,22 @@ pnpm dlx husky-init && pnpm i
 //.husky/pre-commit
 pnpm lint
 
-使用nvm管理node时报错找不到node，无法解决
+win使用nvm管理node时husky报错找不到node，无法解决
+
+### 配置lint-staged
+
+用于只校验暂存区
+pnpm i lint-staged -D
+
+//package.json
+"scripts": {
+"lintstaged": "lint-staged"
+},
+"lintstaged": {
+"\*.{vue.js.ts}": [
+"eslint --fix"
+]
+}
+
+//cmd
+pnpm lintstaged
