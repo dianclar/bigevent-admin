@@ -1,9 +1,9 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-echo nvm版本
+echo nvm版本：
 nvm -v
-echo node版本
+echo node版本：
 node -v
-echo npm版本
+echo npm版本：
 npm -v
