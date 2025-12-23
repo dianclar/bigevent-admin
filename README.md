@@ -100,7 +100,7 @@ ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
 ### 配置husky
 
 用于提交时检查代码
-pnpm dlx husky-init && pnpm i
+npx husky-init && pnpm i
 
 //.husky/pre-commit
 pnpm lint
