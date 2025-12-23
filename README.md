@@ -93,6 +93,14 @@ ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
 }
 ],
 'vue/no-setup-props-destructure': ['off'], // 关闭 props 解构的校验
-'no-undef': 'error'
+'no-undef': 'error'// 未定义变量
 }
 }
+
+### 配置husky
+
+用于提交时检查代码
+pnpm dlx husky-init && pnpm i
+
+//.husky/pre-commit
+pnpm lint
