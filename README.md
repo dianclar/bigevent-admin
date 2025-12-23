@@ -99,8 +99,10 @@ ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
 
 ### 配置husky
 
-用于提交时检查代码
+用于git commit提交时执行命令
 pnpm dlx husky-init && pnpm i
 
 //.husky/pre-commit
 pnpm lint
+
+使用nvm管理node时报错找不到node，无法解决
