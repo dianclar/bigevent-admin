@@ -144,6 +144,7 @@ pnpm i sass -D
 //cmd
 pnpm i element-plus
 pnpm i -D unplugin-vue-components unplugin-auto-import
+pnpm i @element-plus/icons-vue
 
 //vite.config.js
 import AutoImport from 'unplugin-auto-import/vite'
@@ -233,4 +234,14 @@ export { baseURL }
 ### 配置router
 
 区分一二级路由，并在views创建路由组件
-配置router.js
+
+//router.js
+routes: [{
+path: '/',
+component: () => import('@/views/_.vue'),
+redirect: '/_',
+children: [{
+path: '/home',
+component: () => import('@/views/*.vue')
+}]
+}]
