@@ -2,34 +2,76 @@
 import { User, Lock } from '@element-plus/icons-vue'
 import { ref } from 'vue'
 const isRegister = ref(true)
+
+const adduserform = ref({
+  username: '',
+  password: '',
+  repassword: ''
+})
+const repasswordrules = (rule, value, callback) => {
+  if (value !== adduserform.value.password) {
+    callback(new Error('两次输入密码不一致'))
+  } else {
+    callback()
+  }
+}
+const rules = ref({
+  username: [
+    { required: true, message: '请输入用户名', trigger: 'blur' },
+    { min: 3, max: 20, message: '长度在 3 到 20 个字符', trigger: 'blur' }
+  ],
+  password: [
+    { required: true, message: '请输入密码', trigger: 'blur' },
+    { min: 6, max: 20, message: '长度在 6 到 20 个字符', trigger: 'blur' }
+  ],
+  repassword: [
+    { required: true, message: '请再次输入密码', trigger: 'blur' },
+    {
+      validator: repasswordrules,
+      trigger: 'blur'
+    }
+  ]
+})
 </script>
 
 <template>
   <el-row class="login-page">
     <el-col :span="12" class="bg"><div></div></el-col>
     <el-col :span="8" :offset="2" class="col">
+      <!-- form->moudel表单数据对象
+      form->rules表单规则
+      item->v-model表单项数据
+      item->prop表单项匹配规则 -->
       <div class="form">
         <el-form
           ref="form"
           size="large"
           autocomplete="off"
           v-show="!isRegister"
+          :model="adduserform"
+          :rules="rules"
         >
           <el-form-item>
             <h1>注册</h1>
           </el-form-item>
-          <el-form-item>
-            <el-input :prefix-icon="User" placeholder="请输入用户名"></el-input>
-          </el-form-item>
-          <el-form-item>
+          <el-form-item prop="username">
             <el-input
+              v-model="adduserform.username"
+              :prefix-icon="User"
+              placeholder="请输入用户名"
+            ></el-input>
+          </el-form-item>
+          <el-form-item prop="password">
+            <el-input
+              v-model="adduserform.password"
               :prefix-icon="Lock"
               type="password"
               placeholder="请输入密码"
             ></el-input>
           </el-form-item>
-          <el-form-item>
+          <el-form-item prop="repassword">
             <el-input
+              v-model="adduserform.repassword"
               :prefix-icon="Lock"
               type="password"
               placeholder="请输入再次密码"
