@@ -98,8 +98,11 @@ ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
 }
 ],
 'vue/no-setup-props-destructure': ['off'], // 关闭 props 解构的校验
-'no-undef': 'error'// 未定义变量
-}
+'no-undef': 'error'// 未定义变量报错
+},
+globals: {
+// 排除未定义变量
+},
 }
 
 ### 配置husky
