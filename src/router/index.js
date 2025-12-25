@@ -1,4 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import { useUserStore } from '@/stores'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -13,6 +14,9 @@ const router = createRouter({
       path: '/home',
       component: () => import('@/views/layout/document/Management/index.vue')
     }, {
+      path: '/class',
+      component: () => import('@/views/layout/document/class/index.vue')
+    }, {
       path: '/user',
       component: () => import('@/views/layout/user/info/index.vue')
     }, {
@@ -20,6 +24,10 @@ const router = createRouter({
       component: () => import('@/views/layout/user/setuser/index.vue')
     }],
   }],
+})
+
+router.beforeEach((to) => {
+  if (to.path !== '/login' && !useUserStore().token) return '/login'
 })
 
 export default router

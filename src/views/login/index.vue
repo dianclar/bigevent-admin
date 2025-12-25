@@ -4,7 +4,6 @@ import { registerUser, loginUser } from '@/api/user.js'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { User, Lock } from '@element-plus/icons-vue'
-
 const isRegister = ref(false)
 
 const loginForm = ref({
@@ -57,6 +56,8 @@ const login = async () => {
   useUserStore().setToken(res.data.token)
   router.push('/home')
 }
+
+const resetPassword = () => ElMessage.info('要不重新注册一个账号？')
 </script>
 
 <template>
@@ -148,7 +149,12 @@ const login = async () => {
           <el-form-item class="flex">
             <div class="flex">
               <el-checkbox :checked="true" disabled>记住我</el-checkbox>
-              <el-link type="primary" :underline="false">忘记密码？</el-link>
+              <el-link
+                type="primary"
+                :underline="false"
+                @click="resetPassword"
+                >忘记密码？</el-link
+              >
             </div>
           </el-form-item>
           <el-form-item>
