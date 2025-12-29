@@ -4,13 +4,16 @@ import { registerUser, loginUser } from '@/api/user.js'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { User, Lock } from '@element-plus/icons-vue'
+// 是否注册状态
 const isRegister = ref(false)
 
+// 表单数据对象
 const loginForm = ref({
   username: '',
   password: '',
   repassword: ''
 })
+// 自定义确认密码规则
 const repasswordrules = (rule, value, callback) => {
   if (value !== loginForm.value.password) {
     callback(new Error('两次输入密码不一致'))
@@ -18,6 +21,7 @@ const repasswordrules = (rule, value, callback) => {
     callback()
   }
 }
+// 表单规则
 const rules = ref({
   username: [
     { required: true, message: '请输入用户名', trigger: 'blur' },
@@ -41,22 +45,26 @@ const rules = ref({
   ]
 })
 
+// 表单ref
 const form = ref()
+// 注册
 const register = async () => {
   await form.value.validate()
-  await registerUser(loginForm.value)
-  ElMessage.success('注册成功')
+  const res = await registerUser(loginForm.value)
+  ElMessage.success(res.data.message)
   isRegister.value = false
 }
+// 登录
 const login = async () => {
   await form.value.validate()
   const { username, password } = loginForm.value
   const res = await loginUser({ username, password })
-  ElMessage.success('登录成功')
+  ElMessage.success(res.data.message)
   useUserStore().setToken(res.data.token)
   router.push('/home')
 }
 
+// 忘记密码
 const resetPassword = () => ElMessage.info('要不重新注册一个账号？')
 </script>
 
@@ -149,10 +157,7 @@ const resetPassword = () => ElMessage.info('要不重新注册一个账号？')
           <el-form-item class="flex">
             <div class="flex">
               <el-checkbox :checked="true" disabled>记住我</el-checkbox>
-              <el-link
-                type="primary"
-                :underline="false"
-                @click="resetPassword"
+              <el-link type="primary" :underline="false" @click="resetPassword"
                 >忘记密码？</el-link
               >
             </div>

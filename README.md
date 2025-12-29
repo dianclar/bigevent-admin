@@ -248,3 +248,7 @@ path: '/home',
 component: () => import('@/views/*.vue')
 }]
 }]
+// 登陆校验
+router.beforeEach((to) => {
+if (\*) return '/\*'
+})

@@ -10,6 +10,31 @@ import {
   CaretBottom
 } from '@element-plus/icons-vue'
 import avatar from '@/assets/default.png'
+import { getUserInfo } from '@/api/user'
+import { useUserStore } from '@/stores'
+import router from '@/router'
+
+// 获取用户信息
+getUserInfo().then((res) => {
+  useUserStore().setUserInfo(res.data.data)
+})
+const userInfo = useUserStore().userInfo
+
+// 头像下拉菜单处理
+const command = async (command) => {
+  if (command === 'logout') {
+    await ElMessageBox.confirm('你真的要退出登录了吗？', '温馨提示', {
+      confirmButtonText: '真的',
+      cancelButtonText: '不了',
+      type: 'warning'
+    })
+    useUserStore().setToken('').setUserInfo()
+    router.push('/login')
+    ElMessage.success('退出登录成功')
+  } else {
+    router.push(`/${command}`)
+  }
+}
 </script>
 
 <template>
@@ -23,10 +48,10 @@ import avatar from '@/assets/default.png'
         text-color="#fff"
         router
       >
-      <el-menu-item index="/home">
-        <el-icon><Promotion /></el-icon>
-        <span>文章管理</span>
-      </el-menu-item>
+        <el-menu-item index="/home">
+          <el-icon><Promotion /></el-icon>
+          <span>文章管理</span>
+        </el-menu-item>
         <el-menu-item index="/class">
           <el-icon><Management /></el-icon>
           <span>文章分类</span>
@@ -49,22 +74,24 @@ import avatar from '@/assets/default.png'
     </el-aside>
     <el-container>
       <el-header>
-        <div>黑马程序员：<strong>dianclar</strong></div>
-        <el-dropdown placement="bottom-end">
+        <div>
+          黑马程序员：<strong>{{
+            userInfo.nickname || userInfo.username
+          }}</strong>
+        </div>
+        <el-dropdown placement="bottom-end" @command="command">
           <span class="el-dropdown__box">
-            <el-avatar :src="avatar" />
+            <el-avatar :src="userInfo.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
+          <!-- 选项 -->
           <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="profile" :icon="User"
+              <el-dropdown-item command="user" :icon="User"
                 >基本资料</el-dropdown-item
               >
-              <el-dropdown-item command="avatar" :icon="Crop"
-                >更换头像</el-dropdown-item
-              >
-              <el-dropdown-item command="password" :icon="EditPen"
-                >重置密码</el-dropdown-item
+              <el-dropdown-item command="setuser" :icon="Crop"
+                >用户设置</el-dropdown-item
               >
               <el-dropdown-item command="logout" :icon="SwitchButton"
                 >退出登录</el-dropdown-item
@@ -76,7 +103,7 @@ import avatar from '@/assets/default.png'
       <el-main>
         <router-view></router-view>
       </el-main>
-      <el-footer>大事件 ©2023 Created by 黑马程序员</el-footer>
+      <el-footer>大事件 by 黑马程序员</el-footer>
     </el-container>
   </el-container>
 </template>
@@ -119,6 +146,7 @@ import avatar from '@/assets/default.png'
     justify-content: center;
     font-size: 14px;
     color: #666;
+    height: fit-content;
   }
 }
 </style>
