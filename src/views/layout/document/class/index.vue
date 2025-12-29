@@ -69,7 +69,7 @@ const del = (row) => {
 </script>
 
 <template>
-  <mainPage title="文档分类">
+  <mainPage title="文章分类">
     <template #header>
       <el-button type="primary" @click="setData(null)">添加分类</el-button>
     </template>
