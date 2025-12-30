@@ -4,6 +4,7 @@ import { registerUser, loginUser } from '@/api/user.js'
 import { useUserStore } from '@/stores'
 import router from '@/router'
 import { User, Lock } from '@element-plus/icons-vue'
+
 // 是否注册状态
 const isRegister = ref(false)
 
@@ -77,6 +78,7 @@ const resetPassword = () => ElMessage.info('要不重新注册一个账号？')
       item->v-model表单项数据
       item->prop表单项匹配规则 -->
       <div class="form">
+        <!-- 注册 -->
         <el-form
           ref="form"
           size="large"
@@ -127,6 +129,8 @@ const resetPassword = () => ElMessage.info('要不重新注册一个账号？')
             </el-link>
           </el-form-item>
         </el-form>
+
+        <!-- 登陆 -->
         <el-form
           ref="form"
           size="large"

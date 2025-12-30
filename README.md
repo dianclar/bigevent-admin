@@ -252,3 +252,14 @@ component: () => import('@/views/*.vue')
 router.beforeEach((to) => {
 if (\*) return '/\*'
 })
+
+### 获取富文本库quill
+
+地址：https://vueup.github.io/vue-quill/
+
+// cmd  
+pnpm i @vueup/vue-quill@latest
+
+// \*.vue
+import { QuillEditor } from '@vueup/vue-quill';
+import '@vueup/vue-quill/dist/vue-quill.snow.css';

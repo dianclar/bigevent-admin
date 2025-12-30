@@ -70,10 +70,12 @@ const del = (row) => {
 
 <template>
   <mainPage title="文章分类">
+    <!-- 标题栏 -->
     <template #header>
       <el-button type="primary" @click="setData(null)">添加分类</el-button>
     </template>
 
+    <!-- 表格 -->
     <el-table :data="cllassList" style="width: 100%" v-loading="request">
       <el-table-column label="序号" type="index" width="80"></el-table-column>
       <el-table-column label="分类名称" prop="cate_name"></el-table-column>

@@ -33,12 +33,12 @@ instance.interceptors.response.use(
   (err) => {
     // 错误的特殊情况 => 401 权限不足或token过期 => 拦截到登录
     if (err.response?.status === 401) {
-      ElMessage.error(err.response.data.message || '登录过期，请重新登录')
+      ElMessage.error(err.response?.data?.message || '登录过期，请重新登录')
       router.push('/login')
     }
 
     // 错误的默认情况
-    ElMessage.error(err.response.data.message || '服务异常')
+    ElMessage.error(err.response?.data?.message || '服务异常')
     return Promise.reject(err)
   }
 )
