@@ -1,4 +1,5 @@
-import { defineConfig, globalIgnores } from 'eslint/config'
+// eslint.config.js
+import { defineConfig } from 'eslint/config'
 import globals from 'globals'
 import js from '@eslint/js'
 import pluginVue from 'eslint-plugin-vue'
@@ -7,17 +8,25 @@ import skipFormatting from '@vue/eslint-config-prettier/skip-formatting'
 export default defineConfig([
   {
     name: 'app/files-to-lint',
-    files: ['**/*.{js,mjs,jsx,vue}'],
+    files: ['**/*.{js,mjs,jsx,vue}']
   },
 
-  globalIgnores(['**/dist/**', '**/dist-ssr/**', '**/coverage/**']),
+  {
+    name: 'app/ignores',
+    ignores: ['**/dist/**', '**/dist-ssr/**', '**/coverage/**']
+  },
 
   {
+    name: 'app/language-options',
     languageOptions: {
       globals: {
         ...globals.browser,
-      },
-    },
+        // 自定义全局变量（如 Element Plus）
+        ElMessage: 'readonly',
+        ElMessageBox: 'readonly',
+        ElLoading: 'readonly'
+      }
+    }
   },
 
   js.configs.recommended,
@@ -25,20 +34,16 @@ export default defineConfig([
   skipFormatting,
 
   {
+    name: 'app/custom-rules',
     rules: {
       'vue/multi-word-component-names': [
         'warn',
         {
-          ignores: ['index'] // vue组件名称多单词组成（忽略index.vue）
+          ignores: ['index'] // 忽略 index.vue
         }
       ],
-      'vue/no-setup-props-destructure': ['off'], // 关闭 props 解构的校验
-      'no-undef': 'error'// 未定义变量
-    },
-    globals: {
-      ElMessage: 'readonly',
-      ElMessageBox: 'readonly',
-      ElLoading: 'readonly'
-    },
+      'vue/no-setup-props-destructure': 'off', // 关闭 props 解构校验
+      'no-undef': 'error' // 禁止使用未声明变量
+    }
   }
 ])

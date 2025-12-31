@@ -76,6 +76,7 @@ const setData = (data) => {
   })
 }
 
+//
 const commit = async (data) => {
   const fd = new FormData()
   for (const key in data) {
@@ -92,6 +93,12 @@ const commit = async (data) => {
     ElMessage.success(res.data.message)
   }
   reqdoclist()
+}
+
+const deldoc = async (row) => {
+  const res = await delDocument(row)
+  reqdoclist()
+  ElMessage.success(res.data.message)
 }
 </script>
 
@@ -154,11 +161,7 @@ const commit = async (data) => {
             type="danger"
             size="small"
             :icon="Delete"
-            @click="
-              delDocument(row).then((res) =>
-                ElMessage.success(res.data.message)
-              )
-            "
+            @click="deldoc(row)"
             >删除</el-button
           >
         </template>
