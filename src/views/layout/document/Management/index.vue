@@ -76,7 +76,7 @@ const setData = (data) => {
   })
 }
 
-//
+// 提交文章
 const commit = async (data) => {
   const fd = new FormData()
   for (const key in data) {
@@ -95,6 +95,7 @@ const commit = async (data) => {
   reqdoclist()
 }
 
+// 删除文章
 const deldoc = async (row) => {
   const res = await delDocument(row)
   reqdoclist()

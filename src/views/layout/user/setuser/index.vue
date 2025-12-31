@@ -1,3 +1,1 @@
-<template>
-  setuser
-</template>
+<template>setuser</template>

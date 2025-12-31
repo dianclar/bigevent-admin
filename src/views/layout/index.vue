@@ -17,7 +17,6 @@ import router from '@/router'
 getUserInfo().then((res) => {
   useUserStore().setUserInfo(res.data.data)
 })
-const userInfo = useUserStore().userInfo
 
 // 头像下拉菜单处理
 const command = async (command) => {
@@ -75,12 +74,12 @@ const command = async (command) => {
       <el-header>
         <div>
           黑马程序员：<strong>{{
-            userInfo.nickname || userInfo.username
+            useUserStore().userInfo.nickname || useUserStore().userInfo.username
           }}</strong>
         </div>
         <el-dropdown placement="bottom-end" @command="command">
           <span class="el-dropdown__box">
-            <el-avatar :src="userInfo.user_pic || avatar" />
+            <el-avatar :src="useUserStore().userInfo.user_pic || avatar" />
             <el-icon><CaretBottom /></el-icon>
           </span>
           <!-- 选项 -->

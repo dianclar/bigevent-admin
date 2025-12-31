@@ -43,7 +43,8 @@ export default defineConfig([
         }
       ],
       'vue/no-setup-props-destructure': 'off', // 关闭 props 解构校验
-      'no-undef': 'error' // 禁止使用未声明变量
+      'no-undef': 'error', // 禁止使用未声明变量
+      'no-unused-vars': 'off' // 关闭未使用变量警告
     }
   }
 ])
