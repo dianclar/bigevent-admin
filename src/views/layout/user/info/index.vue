@@ -2,7 +2,8 @@
 import { reactive, ref } from 'vue'
 import { ElMessage } from 'element-plus'
 import { useUserStore } from '@/stores'
-import { setUserInfo, getUserInfo } from '@/api/user'
+import { setUserInfo, getUserInfo, setUserAvatar } from '@/api/user'
+import { Plus } from '@element-plus/icons-vue'
 
 const {
   userInfo: { username, nickname, id, email }
@@ -53,11 +54,44 @@ const handleSubmit = async () => {
     useUserStore().setUserInfo(res.data.data)
   })
 }
+// 头像预览
+const imgUrl = ref(useUserStore().userInfo.user_pic)
+const imgUpload = (file) => {
+  // 基于filereader对象创建base64图片
+  const reader = new FileReader()
+  reader.readAsDataURL(file.raw)
+  reader.onload = (e) => {
+    imgUrl.value = e.target.result
+  }
+}
+// 上传头像
+const uploadpic = async () => {
+  const res = await setUserAvatar({ avatar: imgUrl.value })
+  ElMessage.success(res.data.message)
+  getUserInfo().then((res) => {
+    useUserStore().setUserInfo(res.data.data)
+  })
+}
 </script>
 
 <template>
   <mainPage title="基本资料"
     ><div class="user-profile-form">
+      <el-upload
+        :auto-upload="false"
+        @change="imgUpload"
+        :show-file-list="false"
+        class="avatar-uploader"
+      >
+        <img :src="imgUrl" v-if="imgUrl" class="avatar" />
+        <el-icon v-else class="avatar-uploader-icon">
+          <Plus />
+          <div>设置头像</div>
+        </el-icon>
+      </el-upload>
+
+      <p><el-button type="primary" @click="uploadpic">更新头像</el-button></p>
+
       <el-form
         ref="formRef"
         :model="formData"
@@ -95,10 +129,62 @@ const handleSubmit = async () => {
         <!-- 第四行：提交按钮 -->
         <el-form-item>
           <el-button type="primary" @click="handleSubmit" :loading="loading">
-            提交修改
+            修改资料
           </el-button>
         </el-form-item>
       </el-form>
-    </div></mainPage
-  >
+    </div>
+  </mainPage>
 </template>
+
+<style scoped>
+/* 头像上传容器 */
+.avatar-uploader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100px; /* 可根据需求调整 */
+  height: 100px;
+  border: 1px dashed #d9d9d9;
+  border-radius: 50%;
+  cursor: pointer;
+  overflow: hidden;
+  background-color: #fafafa;
+  transition: all 0.3s ease;
+}
+
+.avatar-uploader:hover {
+  border-color: #409eff;
+  background-color: #f0f9ff;
+}
+::v-deep .el-upload {
+  width: 100%;
+  height: 100%;
+}
+
+/* 已上传的头像 */
+.avatar {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* 关键：裁切并填充容器 */
+  object-position: center; /* 关键：图片居中显示 */
+}
+
+/* 上传图标容器 */
+.avatar-uploader-icon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  color: #8c939d;
+  width: 100%;
+  height: 100%;
+}
+
+.avatar-uploader-icon div {
+  margin-top: 6px;
+  font-size: 12px;
+  color: #666;
+}
+</style>
